@@ -1,32 +1,50 @@
 <template>
   <div>
     <a
-      href="https://accounts.spotify.com/authorize?client_id=5258eb9bfe354fef94b82e9f53630b35&response_type=code&redirect_uri=http%3A%2F%2Flocalhost%3A3000"
+      :href="
+        'https://accounts.spotify.com/authorize?client_id=' +
+          client_id +
+          '&response_type=code&redirect_uri=' +
+          redirect_uri
+      "
       >Login with Spotify</a
     >
+    <button @click="getToken">get token</button>
   </div>
 </template>
-
 <script>
 import axios from 'axios'
-
+import qs from 'qs'
 export default {
+  created() {
+    if ($route.query.code != null) {
+      this.getToken()
+    }
+  },
+  data() {
+    return {
+      client_id: '5258eb9bfe354fef94b82e9f53630b35',
+      redirect_uri: 'http%3A%2F%2Flocalhost%3A3000'
+    }
+  },
   methods: {
-    authorize() {
-      axios
-        .get('https://accounts.spotify.com/authorize', {
-          params: {
-            client_id: '5258eb9bfe354fef94b82e9f53630b35',
-            response_type: 'code',
-            redirect_uri: 'localhost:3000'
+    getToken() {
+      axios.post(
+        'https://accounts.spotify.com/api/token',
+        qs.stringify({
+          grant_type: 'authorization_code',
+          code: this.$route.query.code,
+          redirect_uri: this.redirect_uri
+        }),
+        {
+          headers: {
+            Authorization: 'Bearer ',
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
-        })
-        .catch(function(error) {
-          console.log(error)
-        })
+        }
+      )
     }
   }
 }
 </script>
-
 <style></style>
