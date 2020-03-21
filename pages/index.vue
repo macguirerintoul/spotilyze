@@ -21,6 +21,7 @@ export default {
   },
   data() {
     return {
+      access_token: '',
       client_id: '5258eb9bfe354fef94b82e9f53630b35',
       // change 8888 to whatever port netlify dev is using
       // redirect_uri: 'http%3A%2F%2Flocalhost%3A8888'
@@ -36,7 +37,8 @@ export default {
         params.append('code', this.$route.query.code)
         params.append('redirect_uri', this.redirect_uri)
         axios.post('/.netlify/functions/getToken', params).then(result => {
-          console.log(result)
+          console.log(result.data)
+          this.access_token = result.data.access_token
         })
       } else {
         console.log('No code')
