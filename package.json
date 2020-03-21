@@ -16,7 +16,9 @@
     "@nuxtjs/pwa": "^3.0.0-0",
     "axios": "^0.19.2",
     "netlify-lambda": "^1.6.3",
-    "nuxt": "^2.0.0"
+    "nuxt": "^2.0.0",
+    "qs": "^6.9.1",
+    "querystring": "^0.2.0"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
