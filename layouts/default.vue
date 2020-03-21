@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1><nuxt-link to="/">Spotilyze</nuxt-link></h1>
     <nuxt />
   </div>
 </template>
