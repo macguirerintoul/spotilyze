@@ -30,18 +30,12 @@ export default {
   methods: {
     getToken() {
       axios.post(
-        'https://accounts.spotify.com/api/token',
+        '/.netlify/functions/getToken',
         qs.stringify({
           grant_type: 'authorization_code',
           code: this.$route.query.code,
           redirect_uri: this.redirect_uri
-        }),
-        {
-          headers: {
-            Authorization: 'Bearer ',
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
-        }
+        })
       )
     }
   }
