@@ -1,16 +1,7 @@
 <template>
   <div>
-    <a
-      :href="
-        'https://accounts.spotify.com/authorize?client_id=' +
-          client_id +
-          '&response_type=code&redirect_uri=' +
-          redirect_uri
-      "
-      >Login with Spotify</a
-    >
-    <button @click="getToken">get token</button>
-    <h2>Hello, {{ user.displayName }}</h2>
+    <p>Spotilyze is a cool app to analyze your spotify library</p>
+    <a :href="spotifyLoginUrl">Login with Spotify</a>
   </div>
 </template>
 <script>
@@ -53,8 +44,13 @@ export default {
     checkIfAuthenticated() {
       this.$axios
         .$get('https://api.spotify.com/v1/me')
-        .then(result => console.log(result))
+        .then(result => {
+          // User is already authenticated
+          this.$router.push('app')
+          console.log(result)
+        })
         .catch(error => {
+          // 401 error because user is not yet authenticated
           this.getToken()
         })
     },
@@ -69,11 +65,10 @@ export default {
           // Set the Spotify token in the Nuxt Axios module so it will automatically be added to every request
           this.$axios.setToken(result.data.access_token, 'Bearer')
           console.log('nuxt axios token set')
-          this.initialize()
+          this.$router.push('app')
         })
       } else {
         console.log('No code')
-        window.location.href = this.spotifyLoginUrl
       }
     }
   }
