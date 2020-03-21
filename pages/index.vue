@@ -17,7 +17,7 @@ import axios from 'axios'
 import qs from 'qs'
 export default {
   created() {
-    if ($route.query.code != null) {
+    if (this.$route.query.code != null) {
       this.getToken()
     }
   },
