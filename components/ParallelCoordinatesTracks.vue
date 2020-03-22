@@ -5,7 +5,11 @@
 export default {
   created() {
     this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
-      console.log(result)
+      this.$axios
+        .$post('.netlify/functions/getAudioFeatures', { ids: result })
+        .then(result => {
+          console.log(result)
+        })
     })
   },
   data() {

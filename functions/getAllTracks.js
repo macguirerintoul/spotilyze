@@ -18,7 +18,7 @@ const getAllTracks = async (total, auth) => {
     )
   }
   return Promise.all(promises).then(() => {
-    console.log('all promises resolved')
+    // console.log('all promises resolved')
     return tracks
   })
 }
@@ -40,7 +40,7 @@ exports.handler = async event => {
 
   // once we know the total number, retrieve every track
   return getAllTracks(total, auth).then(result => {
-    console.log(result)
+    // console.log(result)
     return {
       statusCode: 200,
       body: JSON.stringify(result)
