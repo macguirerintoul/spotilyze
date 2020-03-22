@@ -17,12 +17,10 @@
     "axios": "^0.19.2",
     "netlify-lambda": "^1.6.3",
     "nuxt": "^2.0.0",
-    "qs": "^6.9.1",
     "querystring": "^0.2.0",
     "vega": "^5.10.0",
     "vega-embed": "^6.5.1",
-    "vega-lite": "^4.8.1",
-    "vue-vega": "^1.0.0-alpha.13"
+    "vega-lite": "^4.8.1"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",

@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/vue-vega'],
+  plugins: [],
   /*
    ** Nuxt.js dev-modules
    */
@@ -59,8 +59,6 @@ export default {
     /*
      ** You can extend webpack config here
      */
-    extend(config, ctx) {
-      config.resolve.alias['vue'] = 'vue/dist/vue.common'
-    }
+    extend(config, ctx) {}
   }
 }
