@@ -122,6 +122,34 @@ export default {
             scale: 'energy',
             title: 'energy',
             offset: { scale: 'ord', value: 'energy', mult: -1 }
+          },
+          {
+            orient: 'left',
+            zindex: 1,
+            scale: 'instrumentalness',
+            title: 'instrumentalness',
+            offset: { scale: 'ord', value: 'instrumentalness', mult: -1 }
+          },
+          {
+            orient: 'left',
+            zindex: 1,
+            scale: 'liveness',
+            title: 'liveness',
+            offset: { scale: 'ord', value: 'liveness', mult: -1 }
+          },
+          {
+            orient: 'left',
+            zindex: 1,
+            scale: 'speechiness',
+            title: 'speechiness',
+            offset: { scale: 'ord', value: 'speechiness', mult: -1 }
+          },
+          {
+            orient: 'left',
+            zindex: 1,
+            scale: 'valence',
+            title: 'valence',
+            offset: { scale: 'ord', value: 'valence', mult: -1 }
           }
         ],
         marks: [
