@@ -1,17 +1,15 @@
 <template>
   <div>
     <h2>Hello, {{ user.display_name }}!</h2>
-    <AlbumsOverTime />
     <ParallelCoordinatesTracks />
   </div>
 </template>
 <script>
 // TODO use nuxt builtin axios
 import axios from 'axios'
-import AlbumsOverTime from '~/components/AlbumsOverTime'
 import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
 export default {
-  components: { AlbumsOverTime, ParallelCoordinatesTracks },
+  components: { ParallelCoordinatesTracks },
   created() {
     this.checkIfAuthenticated()
   },
