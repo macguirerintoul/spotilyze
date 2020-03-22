@@ -6,197 +6,154 @@ import embed from 'vega-embed'
 
 export default {
   created() {
+    console.log('created')
     this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
       this.$axios
         .$post('.netlify/functions/getAudioFeatures', { ids: result })
         .then(result => {
           console.log(result)
           this.tracks = result
+          embed('#viz', this.vegaSpec, { actions: false })
         })
     })
-  },
-  async mounted() {
-    await embed('#viz', this.vegaSpec, { actions: false })
   },
   computed: {
     vegaSpec() {
       return {
         $schema: 'https://vega.github.io/schema/vega/v5.json',
-        width: 400,
-        height: 200,
+        width: 700,
+        height: 400,
         padding: 5,
-
+        config: {
+          axisY: {
+            titleX: -2,
+            titleY: 410,
+            titleAngle: 0,
+            titleAlign: 'right',
+            titleBaseline: 'top'
+          }
+        },
         data: [
           {
-            name: 'table',
-            values: [
-              { category: 'A', amount: 28 },
-              { category: 'B', amount: 55 },
-              { category: 'C', amount: 43 },
-              { category: 'D', amount: 91 },
-              { category: 'E', amount: 81 },
-              { category: 'F', amount: 53 },
-              { category: 'G', amount: 19 },
-              { category: 'H', amount: 87 }
-            ]
-          }
-        ],
-
-        signals: [
+            name: 'tracks',
+            values: this.tracks
+          },
           {
-            name: 'tooltip',
-            value: {},
-            on: [
-              { events: 'rect:mouseover', update: 'datum' },
-              { events: 'rect:mouseout', update: '{}' }
+            name: 'fields',
+            values: [
+              'acousticness',
+              'danceability',
+              'energy',
+              'instrumentalness',
+              'liveness',
+              'speechiness',
+              'valence'
             ]
           }
         ],
-
         scales: [
           {
-            name: 'xscale',
-            type: 'band',
-            domain: { data: 'table', field: 'category' },
+            name: 'ord',
+            type: 'point',
             range: 'width',
-            padding: 0.05,
-            round: true
+            domain: { data: 'fields', field: 'data' }
           },
           {
-            name: 'yscale',
-            domain: { data: 'table', field: 'amount' },
-            nice: true,
-            range: 'height'
+            name: 'acousticness',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'acousticness' }
+          },
+          {
+            name: 'danceability',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'danceability' }
+          },
+          {
+            name: 'energy',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'energy' }
+          },
+          {
+            name: 'instrumentalness',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'instrumentalness' }
+          },
+          {
+            name: 'liveness',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'liveness' }
+          },
+          {
+            name: 'speechiness',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'speechiness' }
+          },
+          {
+            name: 'valence',
+            type: 'linear',
+            range: 'height',
+            domain: { data: 'tracks', field: 'valence' }
           }
         ],
-
         axes: [
-          { orient: 'bottom', scale: 'xscale' },
-          { orient: 'left', scale: 'yscale' }
-        ],
-
-        marks: [
           {
-            type: 'rect',
-            from: { data: 'table' },
-            encode: {
-              enter: {
-                x: { scale: 'xscale', field: 'category' },
-                width: { scale: 'xscale', band: 1 },
-                y: { scale: 'yscale', field: 'amount' },
-                y2: { scale: 'yscale', value: 0 }
-              },
-              update: {
-                fill: { value: 'steelblue' }
-              },
-              hover: {
-                fill: { value: 'red' }
-              }
-            }
+            orient: 'left',
+            zindex: 1,
+            scale: 'acousticness',
+            title: 'acousticness',
+            offset: { scale: 'ord', value: 'acousticness', mult: -1 }
           },
           {
-            type: 'text',
-            encode: {
-              enter: {
-                align: { value: 'center' },
-                baseline: { value: 'bottom' },
-                fill: { value: '#333' }
-              },
-              update: {
-                x: { scale: 'xscale', signal: 'tooltip.category', band: 0.5 },
-                y: { scale: 'yscale', signal: 'tooltip.amount', offset: -2 },
-                text: { signal: 'tooltip.amount' },
-                fillOpacity: [
-                  { test: 'isNaN(tooltip.amount)', value: 0 },
-                  { value: 1 }
-                ]
+            orient: 'left',
+            zindex: 1,
+            scale: 'danceability',
+            title: 'danceability',
+            offset: { scale: 'ord', value: 'danceability', mult: -1 }
+          },
+          {
+            orient: 'left',
+            zindex: 1,
+            scale: 'energy',
+            title: 'energy',
+            offset: { scale: 'ord', value: 'energy', mult: -1 }
+          }
+        ],
+        marks: [
+          {
+            type: 'group',
+            from: { data: 'tracks' },
+            marks: [
+              {
+                type: 'line',
+                from: { data: 'fields' },
+                encode: {
+                  enter: {
+                    x: { scale: 'ord', field: 'data' },
+                    y: {
+                      scale: { datum: 'data' },
+                      field: { parent: { datum: 'data' } }
+                    },
+                    stroke: { value: 'steelblue' },
+                    strokeWidth: { value: 1.01 },
+                    strokeOpacity: { value: 0.3 }
+                  }
+                }
               }
-            }
+            ]
           }
         ]
       }
-    },
-    vegaData() {
-      return [
-        {
-          name: 'tracks',
-          values: this.tracks,
-          async: true,
-          format: { type: 'json', parse: 'auto' }
-        },
-        {
-          name: 'fields',
-          values: [
-            'acousticness',
-            'danceability',
-            'energy',
-            'instrumentalness',
-            'liveness',
-            'speechiness',
-            'valence'
-          ]
-        }
-      ]
     }
   },
   data() {
     return {
-      $schema: 'https://vega.github.io/schema/vega/v5.json',
-      width: 800,
-      height: 800,
-      padding: 5,
-      config: {
-        axisY: {
-          titleX: -2,
-          titleY: 410,
-          titleAngle: 0,
-          titleAlign: 'right',
-          titleBaseline: 'top'
-        }
-      },
-      tracks: [],
-      scales: [
-        {
-          name: 'ord',
-          type: 'point',
-          range: 'width',
-          round: true,
-          domain: { data: 'fields', field: 'data' }
-        }
-      ],
-      axes: [
-        {
-          orient: 'left',
-          zindex: 1,
-          scale: 'acousticness',
-          title: 'acousticness',
-          offset: { scale: 'ord', value: 'acousticness', mult: -1 }
-        }
-      ],
-      marks: [
-        {
-          type: 'group',
-          from: { data: 'tracks' },
-          marks: [
-            {
-              type: 'line',
-              from: { data: 'fields' },
-              encode: {
-                enter: {
-                  x: { scale: 'ord', field: 'data' },
-                  y: {
-                    scale: { datum: 'data' },
-                    field: { parent: { datum: 'data' } }
-                  },
-                  stroke: { value: 'steelblue' },
-                  strokeWidth: { value: 1.01 },
-                  strokeOpacity: { value: 0.3 }
-                }
-              }
-            }
-          ]
-        }
-      ]
+      tracks: []
     }
   }
 }
