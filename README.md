@@ -2,21 +2,16 @@
 
 > Final project for IAT 355 at SFU
 
-## Build Setup
+## Visualizations
 
-```bash
-# install dependencies
-$ npm install
+### Artists
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+### Albums
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+- saved albums over time
+- saved albums over time, by artist
 
-# generate static project
-$ npm run generate
-```
+### Tracks
 
-For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
+- saved tracks over time
+- saved tracks over time, by artist

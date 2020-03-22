@@ -1,12 +1,15 @@
 <template>
   <div>
     <h2>Hello, {{ user.display_name }}!</h2>
+    <AlbumsOverTime />
   </div>
 </template>
 <script>
 // TODO use nuxt builtin axios
 import axios from 'axios'
+import AlbumsOverTime from '~/components/AlbumsOverTime'
 export default {
+  components: { AlbumsOverTime },
   created() {
     this.checkIfAuthenticated()
   },
