@@ -1,40 +1,49 @@
 const axios = require('axios')
 
+const getAllTracks = async (total, auth) => {
+  let tracks = []
+  let promises = []
+  for (i = 0; i < total; i = i + 50) {
+    promises.push(
+      axios
+        .get('https://api.spotify.com/v1/me/tracks?limit=50&offset=' + i, {
+          headers: {
+            Authorization: auth
+          }
+        })
+        .then(result => {
+          let newTracks = result.data.items.map(item => item.track.name)
+          tracks.push.apply(tracks, newTracks)
+        })
+    )
+  }
+  return Promise.all(promises).then(() => {
+    console.log('all promises resolved')
+    return tracks
+  })
+}
+
 exports.handler = async event => {
   console.log('getAllTracks')
-
-  return axios
+  const auth = event.headers.authorization
+  const total = await axios
     .get('https://api.spotify.com/v1/me/tracks', {
       // make an initial request to find out the total number of tracks in the library
       headers: {
-        Authorization: event.headers.authorization
+        Authorization: auth
       }
     })
     .then(result => {
-      // once we know the total number, retrieve every track
-      const total = result.data.total
-      let tracks = []
-
-      for (i = 0; i < total; i = i + 50) {
-        console.log(i)
-        axios
-          .get('https://api.spotify.com/v1/me/tracks?limit=50&offset=' + i, {
-            headers: {
-              Authorization: event.headers.authorization
-            }
-          })
-          .then(result => {
-            let newTracks = result.data.items.map(item => item.track.name)
-            tracks.push.apply(tracks, newTracks)
-          })
-      }
-
-      console.log(tracks)
-      console.log('returning')
-      return {
-        statusCode: 200,
-        body: JSON.stringify(tracks)
-      }
+      return result.data.total
     })
     .catch(error => console.error(error))
+
+  // once we know the total number, retrieve every track
+  return getAllTracks(total, auth).then(result => {
+    console.log(result)
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result)
+    }
+  })
 }
