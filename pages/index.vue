@@ -13,6 +13,7 @@ export default {
   },
   data() {
     return {
+      scope: 'user-library-read',
       user: {},
       // TODO take from .env
       client_id: '5258eb9bfe354fef94b82e9f53630b35',
@@ -28,7 +29,9 @@ export default {
         'https://accounts.spotify.com/authorize?client_id=' +
         this.client_id +
         '&response_type=code&redirect_uri=' +
-        this.redirect_uri
+        this.redirect_uri +
+        '&scope=' +
+        this.scope
       )
     }
   },
@@ -61,6 +64,7 @@ export default {
         let params = new URLSearchParams()
         params.append('code', this.$route.query.code)
         params.append('redirect_uri', this.redirect_uri)
+        params.append('scope', this.scope)
         axios.post('/.netlify/functions/getToken', params).then(result => {
           // Set the Spotify token in the Nuxt Axios module so it will automatically be added to every request
           this.$axios.setToken(result.data.access_token, 'Bearer')
