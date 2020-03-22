@@ -12,7 +12,7 @@ const getAllTracks = async (total, auth) => {
           }
         })
         .then(result => {
-          let newTracks = result.data.items.map(item => item.track.name)
+          let newTracks = result.data.items.map(item => item.track.id)
           tracks.push.apply(tracks, newTracks)
         })
     )
