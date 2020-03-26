@@ -8,8 +8,11 @@ export default {
 	created() {
 		console.log('created')
 		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
+			console.log(result)
 			this.$axios
-				.$post('.netlify/functions/getAudioFeatures', { ids: result })
+				.$post('.netlify/functions/getAudioFeatures', {
+					ids: result.map(item => item.track.id)
+				})
 				.then(result => {
 					this.tracks = result
 					embed('#ParallelCoordinatesTracks', this.vegaSpec, { actions: false })

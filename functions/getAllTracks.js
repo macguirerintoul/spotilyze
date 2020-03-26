@@ -8,11 +8,11 @@ const getAllTracks = async (total, auth) => {
 			axios
 				.get('https://api.spotify.com/v1/me/tracks?limit=50&offset=' + i, {
 					headers: {
-						Authorization: auth,
-					},
+						Authorization: auth
+					}
 				})
 				.then(result => {
-					let newTracks = result.data.items.map(item => item.track.id)
+					let newTracks = result.data.items
 					tracks.push.apply(tracks, newTracks)
 				})
 		)
@@ -30,8 +30,8 @@ exports.handler = async event => {
 		.get('https://api.spotify.com/v1/me/tracks', {
 			// make an initial request to find out the total number of tracks in the library
 			headers: {
-				Authorization: auth,
-			},
+				Authorization: auth
+			}
 		})
 		.then(result => {
 			return result.data.total
@@ -43,7 +43,7 @@ exports.handler = async event => {
 		// console.log(result)
 		return {
 			statusCode: 200,
-			body: JSON.stringify(result),
+			body: JSON.stringify(result)
 		}
 	})
 }
