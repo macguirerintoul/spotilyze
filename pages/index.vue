@@ -43,6 +43,7 @@ export default {
 			this.$axios
 				.$get('https://api.spotify.com/v1/me')
 				.then(result => {
+					console.log('authenticated')
 					// User is already authenticated
 					this.$router.push('app')
 					console.log(result)
@@ -63,8 +64,9 @@ export default {
 				this.$axios
 					.$post('/.netlify/functions/getToken', params)
 					.then(result => {
+						console.log(result)
 						// Set the Spotify token in the Nuxt Axios module so it will automatically be added to every request
-						this.$axios.setToken(result.data.access_token, 'Bearer')
+						this.$axios.setToken(result.access_token, 'Bearer')
 						console.log('nuxt axios token set')
 						this.$router.push('app')
 					})
