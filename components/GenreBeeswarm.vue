@@ -1,5 +1,5 @@
 <template>
-	<div id="ParallelCoordinatesTracks"></div>
+	<div id="GenreBeeswarm"></div>
 </template>
 <script>
 import embed from 'vega-embed'
@@ -7,13 +7,10 @@ import embed from 'vega-embed'
 export default {
 	created() {
 		console.log('created')
-		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
-			this.$axios
-				.$post('.netlify/functions/getAudioFeatures', { ids: result })
-				.then(result => {
-					this.tracks = result
-					embed('#ParallelCoordinatesTracks', this.vegaSpec, { actions: false })
-				})
+		this.$axios.$get('/.netlify/functions/getAllArtists').then(result => {
+			console.log(result)
+			this.artists = result
+			embed('#GenreBeeswarm', this.vegaSpec, { actions: false })
 		})
 	},
 	computed: {

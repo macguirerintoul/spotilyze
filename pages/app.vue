@@ -3,14 +3,20 @@
 		<h2>Hello, {{ user.display_name }}!</h2>
 		<ParallelCoordinatesTracks />
 		<ScatterPlotDancePopularity />
+		<GenreBeeswarm />
 	</div>
 </template>
 <script>
 import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
 import ScatterPlotDancePopularity from '~/components/ScatterPlotDancePopularity'
+import GenreBeeswarm from '~/components/GenreBeeswarm'
 
 export default {
-	components: { ParallelCoordinatesTracks, ScatterPlotDancePopularity },
+	components: {
+		ParallelCoordinatesTracks,
+		ScatterPlotDancePopularity,
+		GenreBeeswarm
+	},
 	mounted() {
 		this.checkIfAuthenticated()
 	},

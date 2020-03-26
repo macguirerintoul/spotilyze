@@ -11,7 +11,6 @@ export default {
 			this.$axios
 				.$post('.netlify/functions/getAudioFeatures', { ids: result })
 				.then(result => {
-					console.log(result)
 					this.tracks = result
 					embed('#ScatterPlotDancePopularity', this.vegaSpec, {
 						actions: false
