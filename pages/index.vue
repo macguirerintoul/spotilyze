@@ -14,7 +14,7 @@ export default {
 		return {
 			scope: 'user-library-read',
 			user: {},
-			client_id: process.env.CLIENT_ID,
+			client_id: process.env.SPOTIFY_CLIENT_ID,
 			redirect_uri: process.env.REDIRECT_URI
 		}
 	},
