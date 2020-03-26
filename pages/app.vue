@@ -2,13 +2,15 @@
 	<div>
 		<h2>Hello, {{ user.display_name }}!</h2>
 		<ParallelCoordinatesTracks />
+		<ScatterPlotDancePopularity />
 	</div>
 </template>
 <script>
 import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
+import ScatterPlotDancePopularity from '~/components/ScatterPlotDancePopularity'
 
 export default {
-	components: { ParallelCoordinatesTracks },
+	components: { ParallelCoordinatesTracks, ScatterPlotDancePopularity },
 	mounted() {
 		this.checkIfAuthenticated()
 	},
