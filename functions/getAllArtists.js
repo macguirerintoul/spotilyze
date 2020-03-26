@@ -4,7 +4,6 @@ const getAllArtists = async (total, auth) => {
 	let artists = []
 	let promises = []
 	for (i = 0; i < total; i = i + 50) {
-		console.log(i)
 		promises.push(
 			axios
 				.get('https://api.spotify.com/v1/me/tracks?limit=50&offset=' + i, {
@@ -17,13 +16,11 @@ const getAllArtists = async (total, auth) => {
 						item => item.track.artists
 					)
 					let newArtists = [].concat.apply([], newArtistArrays)
-					console.log(newArtists)
 					artists.push.apply(artists, newArtists)
 				})
 		)
 	}
 	return Promise.all(promises).then(() => {
-		console.log('all artist promises resolved')
 		// remove duplicates
 		let uniqueArtists = artists.filter(
 			(artist, index, self) => index === self.findIndex(t => t.id === artist.id)

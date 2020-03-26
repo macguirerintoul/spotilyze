@@ -8,9 +8,15 @@ export default {
 	created() {
 		console.log('created')
 		this.$axios.$get('/.netlify/functions/getAllArtists').then(result => {
-			console.log(result)
-			this.artists = result
-			embed('#GenreBeeswarm', this.vegaSpec, { actions: false })
+			this.$axios
+				.$post('/.netlify/functions/getArtistDetails', {
+					ids: result.map(item => item.id)
+				})
+				.then(result => {
+					console.log(result)
+					this.artists = result
+					embed('#GenreBeeswarm', this.vegaSpec, { actions: false })
+				})
 		})
 	},
 	computed: {
@@ -31,8 +37,8 @@ export default {
 				},
 				data: [
 					{
-						name: 'tracks',
-						values: this.tracks
+						name: 'artists',
+						values: this.artists
 					},
 					{
 						name: 'fields',
@@ -177,7 +183,7 @@ export default {
 	},
 	data() {
 		return {
-			tracks: []
+			artists: []
 		}
 	}
 }
