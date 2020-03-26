@@ -92,9 +92,8 @@ export default {
 								x: { scale: 'x', field: 'energy' },
 								y: { scale: 'y', field: 'danceability' },
 								shape: { value: 'circle' },
-								strokeWidth: { value: 2 },
 								opacity: { value: 0.5 },
-								stroke: { value: '#4682b4' }
+								fill: { value: '#4682b4' }
 							}
 						}
 					}
