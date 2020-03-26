@@ -4,9 +4,8 @@
 		<a :href="spotifyLoginUrl">Login with Spotify</a>
 	</div>
 </template>
+
 <script>
-// TODO use nuxt builtin axios
-import axios from 'axios'
 export default {
 	created() {
 		this.checkIfAuthenticated()
@@ -61,12 +60,14 @@ export default {
 				params.append('code', this.$route.query.code)
 				params.append('redirect_uri', this.redirect_uri)
 				params.append('scope', this.scope)
-				axios.post('/.netlify/functions/getToken', params).then(result => {
-					// Set the Spotify token in the Nuxt Axios module so it will automatically be added to every request
-					this.$axios.setToken(result.data.access_token, 'Bearer')
-					console.log('nuxt axios token set')
-					this.$router.push('app')
-				})
+				this.$axios
+					.$post('/.netlify/functions/getToken', params)
+					.then(result => {
+						// Set the Spotify token in the Nuxt Axios module so it will automatically be added to every request
+						this.$axios.setToken(result.data.access_token, 'Bearer')
+						console.log('nuxt axios token set')
+						this.$router.push('app')
+					})
 			} else {
 				console.log('No code')
 			}
