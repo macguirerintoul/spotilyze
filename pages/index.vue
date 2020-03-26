@@ -7,7 +7,7 @@
 
 <script>
 export default {
-	created() {
+	mounted() {
 		this.checkIfAuthenticated()
 	},
 	data() {

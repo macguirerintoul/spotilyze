@@ -9,7 +9,7 @@ import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
 
 export default {
 	components: { ParallelCoordinatesTracks },
-	created() {
+	mounted() {
 		this.checkIfAuthenticated()
 	},
 	data() {
