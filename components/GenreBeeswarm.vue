@@ -26,81 +26,28 @@ export default {
 				width: 700,
 				height: 400,
 				padding: 5,
-				config: {
-					axisY: {
-						titleX: -2,
-						titleY: 410,
-						titleAngle: 0,
-						titleAlign: 'right',
-						titleBaseline: 'top'
-					}
-				},
 				data: [
 					{
 						name: 'artists',
 						values: this.artists
-					},
-					{
-						name: 'fields',
-						values: [
-							'acousticness',
-							'danceability',
-							'energy',
-							'instrumentalness',
-							'liveness',
-							'speechiness',
-							'valence'
-						]
 					}
 				],
 				scales: [
 					{
-						name: 'ord',
-						type: 'point',
-						range: 'width',
-						domain: { data: 'fields', field: 'data' }
+						name: 'xscale',
+						type: 'band',
+						domain: {
+							data: 'artists',
+							field: 'genres',
+							sort: true
+						},
+						range: 'width'
 					},
 					{
-						name: 'acousticness',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'acousticness' }
-					},
-					{
-						name: 'danceability',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'danceability' }
-					},
-					{
-						name: 'energy',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'energy' }
-					},
-					{
-						name: 'instrumentalness',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'instrumentalness' }
-					},
-					{
-						name: 'liveness',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'liveness' }
-					},
-					{
-						name: 'speechiness',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'speechiness' }
-					},
-					{
-						name: 'valence',
-						type: 'linear',
-						range: 'height',
-						domain: { data: 'tracks', field: 'valence' }
+						name: 'color',
+						type: 'ordinal',
+						domain: { data: 'people', field: 'group' },
+						range: { scheme: 'category20c' }
 					}
 				],
 				axes: [
