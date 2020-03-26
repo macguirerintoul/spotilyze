@@ -3,6 +3,7 @@ const axios = require('axios')
 const getAllArtists = async (total, auth) => {
 	let artists = []
 	let promises = []
+	// TODO use the function?
 	for (i = 0; i < total; i = i + 50) {
 		promises.push(
 			axios
