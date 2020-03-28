@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p>Spotilyze is a cool app to analyze your spotify library</p>
+		<p>Welcome to Spotilyze. It's a visual analytics app developed to provide DJs and music enthusiasts with insights about their libraries.</p>
 		<a :href="spotifyLoginUrl">Login with Spotify</a>
 	</div>
 </template>
