@@ -8,12 +8,16 @@ export default {
 	created() {
 		console.log('created')
 		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
+			/* Here, we need to keep the popularity values we have since they aren't returned by the audio features API */
+			this.popularityData = result.map(item => ({
+				id: item.track.id,
+				popularity: item.track.popularity
+			}))
 			this.$axios
 				.$post('.netlify/functions/getAudioFeatures', {
 					ids: result.map(item => item.track.id)
 				})
 				.then(result => {
-					console.log(result)
 					this.tracks = result
 					embed('#ScatterPlotDancePopularity', this.vegaSpec, {
 						actions: false
@@ -29,9 +33,20 @@ export default {
 				height: 400,
 				padding: 5,
 				data: [
+					{ name: 'popularity', values: this.popularityData },
 					{
 						name: 'tracks',
-						values: this.tracks
+						values: this.tracks,
+						transform: [
+							{
+								type: 'lookup',
+								from: 'popularity',
+								key: 'id',
+								fields: ['id'],
+								values: ['popularity'],
+								as: ['popularity']
+							}
+						]
 					}
 				],
 				scales: [
@@ -41,7 +56,7 @@ export default {
 						round: true,
 						nice: true,
 						zero: true,
-						domain: { data: 'tracks', field: 'energy' },
+						domain: { data: 'tracks', field: 'popularity' },
 						range: 'width'
 					},
 					{
@@ -61,7 +76,7 @@ export default {
 						domain: false,
 						orient: 'bottom',
 						tickCount: 5,
-						title: 'energy'
+						title: 'Popularity'
 					},
 					{
 						scale: 'y',
@@ -79,7 +94,7 @@ export default {
 						from: { data: 'tracks' },
 						encode: {
 							update: {
-								x: { scale: 'x', field: 'energy' },
+								x: { scale: 'x', field: 'popularity' },
 								y: { scale: 'y', field: 'danceability' },
 								shape: { value: 'circle' },
 								opacity: { value: 0.5 },
@@ -93,7 +108,8 @@ export default {
 	},
 	data() {
 		return {
-			tracks: []
+			tracks: [],
+			popularityData: []
 		}
 	}
 }
