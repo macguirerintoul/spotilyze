@@ -71,5 +71,7 @@ h3 {
 .flex-column {
 	display: flex;
 	flex-direction: column;
+	max-width: 800px;
+	margin: auto;
 }
 </style>
