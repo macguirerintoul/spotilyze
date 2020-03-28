@@ -18,7 +18,7 @@ exports.handler = async (event, context) => {
 		}
 	}
 
-	let clientId = process.env.VUE_APP_SPOTIFY_CLIENT_ID
+	let clientId = process.env.SPOTIFY_CLIENT_ID
 	let clientSecret = process.env.SPOTIFY_CLIENT_SECRET
 	let b64 = Buffer.from(clientId + ':' + clientSecret).toString('base64')
 
