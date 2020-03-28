@@ -25,6 +25,7 @@ export default {
 		vegaSpec() {
 			return {
 				$schema: 'https://vega.github.io/schema/vega/v5.json',
+				title: 'Distribution of artists over popularity',
 				width: 700,
 				height: 400,
 				padding: 5,
@@ -73,8 +74,14 @@ export default {
 					}
 				],
 				axes: [
-					{ orient: 'bottom', scale: 'xscale', zindex: 1 },
-					{ orient: 'left', scale: 'yscale', tickCount: 5, zindex: 1 }
+					{ orient: 'bottom', scale: 'xscale', zindex: 1, title: 'Popularity' },
+					{
+						orient: 'left',
+						scale: 'yscale',
+						tickCount: 5,
+						zindex: 1,
+						title: 'Number of artists'
+					}
 				],
 				marks: [
 					{

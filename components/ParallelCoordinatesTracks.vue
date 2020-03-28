@@ -23,6 +23,8 @@ export default {
 		vegaSpec() {
 			return {
 				$schema: 'https://vega.github.io/schema/vega/v5.json',
+				title:
+					'Parallel coordinates of all tracks in library over 7 dimensions',
 				width: 700,
 				height: 400,
 				padding: 5,
