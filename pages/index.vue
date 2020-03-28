@@ -13,13 +13,13 @@ export default {
 	},
 	created() {
 		console.log('created', this.redirect_uri)
-		},
+	},
 	data() {
 		return {
 			scope: 'user-library-read',
 			user: {},
-			client_id: process.env.SPOTIFY_CLIENT_ID,
-			redirect_uri: process.env.REDIRECT_URI
+			client_id: process.env.VUE_APP_SPOTIFY_CLIENT_ID,
+			redirect_uri: process.env.VUE_APP_REDIRECT_URI
 		}
 	},
 	computed: {
