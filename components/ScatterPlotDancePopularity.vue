@@ -9,8 +9,11 @@ export default {
 		console.log('created')
 		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
 			this.$axios
-				.$post('.netlify/functions/getAudioFeatures', { ids: result })
+				.$post('.netlify/functions/getAudioFeatures', {
+					ids: result.map(item => item.track.id)
+				})
 				.then(result => {
+					console.log(result)
 					this.tracks = result
 					embed('#ScatterPlotDancePopularity', this.vegaSpec, {
 						actions: false
@@ -29,18 +32,6 @@ export default {
 					{
 						name: 'tracks',
 						values: this.tracks
-					},
-					{
-						name: 'fields',
-						values: [
-							'acousticness',
-							'danceability',
-							'energy',
-							'instrumentalness',
-							'liveness',
-							'speechiness',
-							'valence'
-						]
 					}
 				],
 				scales: [

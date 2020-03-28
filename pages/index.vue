@@ -8,8 +8,12 @@
 <script>
 export default {
 	mounted() {
+		console.log('mounted', this.redirect_uri)
 		this.checkIfAuthenticated()
 	},
+	created() {
+		console.log('created', this.redirect_uri)
+		},
 	data() {
 		return {
 			scope: 'user-library-read',
@@ -59,6 +63,7 @@ export default {
 				console.log('URL has a code in it')
 				let params = new URLSearchParams()
 				params.append('code', this.$route.query.code)
+				console.log('appending redirect uri', this.redirect_uri)
 				params.append('redirect_uri', this.redirect_uri)
 				params.append('scope', this.scope)
 				this.$axios
