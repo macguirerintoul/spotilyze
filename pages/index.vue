@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<p>Spotilyze is a cool app to analyze your spotify library</p>
+		<p>Welcome to Spotilyze. It's a visual analytics app developed to provide DJs and music enthusiasts with insights about their libraries.</p>
 		<a :href="spotifyLoginUrl">Login with Spotify</a>
 	</div>
 </template>
@@ -8,7 +8,11 @@
 <script>
 export default {
 	mounted() {
+		console.log('mounted', this.redirect_uri)
 		this.checkIfAuthenticated()
+	},
+	created() {
+		console.log('created', this.redirect_uri)
 	},
 	data() {
 		return {
@@ -59,6 +63,7 @@ export default {
 				console.log('URL has a code in it')
 				let params = new URLSearchParams()
 				params.append('code', this.$route.query.code)
+				console.log('appending redirect uri', this.redirect_uri)
 				params.append('redirect_uri', this.redirect_uri)
 				params.append('scope', this.scope)
 				this.$axios

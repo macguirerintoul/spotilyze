@@ -9,7 +9,7 @@ const getAllArtistEvents = async artists => {
 			axios
 				.get(
 					'https://rest.bandsintown.com/artists/' +
-						artists[i] +
+						escape(artists[i]) +
 						'/events?app_id=' +
 						process.env.BANDSINTOWN_APP_ID +
 						'&date=upcoming'

@@ -6,14 +6,12 @@ import embed from 'vega-embed'
 
 export default {
 	created() {
-		console.log('created')
 		this.$axios.$get('/.netlify/functions/getAllArtists').then(result => {
 			this.$axios
 				.$post('/.netlify/functions/getArtistDetails', {
 					ids: result.map(item => item.id)
 				})
 				.then(result => {
-					console.log(result)
 					this.artists = result
 					embed('#ArtistPopularityDistribution', this.vegaSpec, {
 						actions: false
@@ -25,6 +23,7 @@ export default {
 		vegaSpec() {
 			return {
 				$schema: 'https://vega.github.io/schema/vega/v5.json',
+				title: 'Distribution of artists over popularity',
 				width: 700,
 				height: 400,
 				padding: 5,
@@ -70,11 +69,23 @@ export default {
 						domain: { data: 'binned', field: 'count' },
 						zero: true,
 						nice: true
+					},
+					{
+						name: 'color',
+						type: 'ordinal',
+						range: { scheme: 'category10' },
+						domain: { data: 'binned', field: 'popularity' }
 					}
 				],
 				axes: [
-					{ orient: 'bottom', scale: 'xscale', zindex: 1 },
-					{ orient: 'left', scale: 'yscale', tickCount: 5, zindex: 1 }
+					{ orient: 'bottom', scale: 'xscale', zindex: 1, title: 'Popularity' },
+					{
+						orient: 'left',
+						scale: 'yscale',
+						tickCount: 5,
+						zindex: 1,
+						title: 'Number of artists'
+					}
 				],
 				marks: [
 					{
@@ -89,9 +100,8 @@ export default {
 								},
 								y: { scale: 'yscale', field: 'count' },
 								y2: { scale: 'yscale', value: 0 },
-								fill: { value: 'steelblue' }
-							},
-							hover: { fill: { value: 'firebrick' } }
+								fill: { scale: 'color', field: 'popularity' }
+							}
 						}
 					},
 					{
@@ -100,11 +110,7 @@ export default {
 						encode: {
 							enter: {
 								x: { scale: 'xscale', field: 'u' },
-								width: { value: 1 },
-								y: { value: 25 },
-								height: { value: 5 },
-								fill: { value: 'steelblue' },
-								fillOpacity: { value: 0.4 }
+								width: { value: 1 }
 							}
 						}
 					}
