@@ -11,6 +11,7 @@ export default {
 			this.$axios
 				.$post('/.netlify/functions/getAllArtistEvents', { artists: artists })
 				.then(result => {
+					console.log(result)
 					this.events = result
 					embed('#ArtistEventMap', this.vegaSpec)
 				})
@@ -121,6 +122,21 @@ export default {
 					{
 						name: 'graticule',
 						transform: [{ type: 'graticule' }]
+					},
+					{
+						name: 'events',
+						values: this.events,
+						transform: [
+							{
+								type: 'geopoint',
+								projection: 'projection',
+								fields: ['venue.longitude', 'venue.latitude']
+							},
+							{
+								type: 'filter',
+								expr: 'datum.x != null && datum.y != null'
+							}
+						]
 					}
 				],
 
@@ -155,6 +171,23 @@ export default {
 							}
 						},
 						transform: [{ type: 'geoshape', projection: 'projection' }]
+					},
+					{
+						type: 'symbol',
+						from: { data: 'events' },
+						encode: {
+							enter: {
+								size: { value: 16 },
+								fill: { value: 'steelblue' },
+								fillOpacity: { value: 0.8 },
+								stroke: { value: 'white' },
+								strokeWidth: { value: 1.5 }
+							},
+							update: {
+								x: { field: 'x' },
+								y: { field: 'y' }
+							}
+						}
 					}
 				]
 			}
