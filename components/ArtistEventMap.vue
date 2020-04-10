@@ -153,7 +153,6 @@ export default {
 						]
 					}
 				],
-
 				marks: [
 					{
 						type: 'shape',
@@ -170,7 +169,7 @@ export default {
 						from: { data: 'events' },
 						encode: {
 							enter: {
-								size: { value: 16 },
+								size: { value: 100 },
 								fill: { value: 'steelblue' },
 								fillOpacity: { value: 0.8 },
 								stroke: { value: 'white' },
@@ -178,7 +177,8 @@ export default {
 							},
 							update: {
 								x: { field: 'x' },
-								y: { field: 'y' }
+								y: { field: 'y' },
+								tooltip: { signal: 'datum' }
 							}
 						}
 					}
