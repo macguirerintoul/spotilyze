@@ -9,15 +9,15 @@ const getAllArtistEvents = async artists => {
 			axios
 				.get(
 					'https://rest.bandsintown.com/artists/' +
-						escape(artists[i]) +
+						encodeURIComponent(artists[i]) +
 						'/events?app_id=' +
 						process.env.BANDSINTOWN_APP_ID +
 						'&date=upcoming'
 				)
 				.then(result => {
-					console.log(result.data)
 					events.push.apply(events, result.data)
 				})
+				.catch(error => console.error(error))
 		)
 	}
 	return Promise.all(promises).then(() => {
