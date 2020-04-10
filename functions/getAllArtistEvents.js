@@ -15,7 +15,8 @@ const getAllArtistEvents = async artists => {
 						'&date=upcoming'
 				)
 				.then(result => {
-					events.push.apply(events, result)
+					console.log(result.data)
+					events.push.apply(events, result.data)
 				})
 		)
 	}
@@ -29,7 +30,6 @@ exports.handler = async event => {
 	const artists = JSON.parse(event.body).artists
 
 	return getAllArtistEvents(artists).then(result => {
-		console.log(result)
 		return {
 			statusCode: 200,
 			body: JSON.stringify(result)
