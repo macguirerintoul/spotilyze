@@ -4,18 +4,21 @@
 		<ParallelCoordinatesTracks />
 		<ScatterPlotDancePopularity />
 		<ArtistPopularityDistribution />
+		<ArtistEventMap />
 	</div>
 </template>
 <script>
 import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
 import ScatterPlotDancePopularity from '~/components/ScatterPlotDancePopularity'
 import ArtistPopularityDistribution from '~/components/ArtistPopularityDistribution'
+import ArtistEventMap from '~/components/ArtistEventMap'
 
 export default {
 	components: {
 		ParallelCoordinatesTracks,
 		ScatterPlotDancePopularity,
-		ArtistPopularityDistribution
+		ArtistPopularityDistribution,
+		ArtistEventMap
 	},
 	mounted() {
 		this.checkIfAuthenticated()
