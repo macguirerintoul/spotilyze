@@ -10,7 +10,8 @@ export default {
 			/* Here, we need to keep the popularity values we have since they aren't returned by the audio features API */
 			this.popularityData = result.map(item => ({
 				id: item.track.id,
-				popularity: item.track.popularity
+				popularity: item.track.popularity,
+				artists: item.track.artists.map(artist => artist.name)
 			}))
 			this.$axios
 				.$post('.netlify/functions/getAudioFeatures', {
@@ -43,8 +44,11 @@ export default {
 								from: 'popularity',
 								key: 'id',
 								fields: ['id'],
-								values: ['popularity'],
-								as: ['popularity']
+								values: ['popularity', 'artists']
+							},
+							{
+								type: 'filter',
+								expr: "indexof(datum.artists, 'Anderson .Paak') > 0"
 							}
 						]
 					}
