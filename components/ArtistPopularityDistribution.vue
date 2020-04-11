@@ -13,8 +13,10 @@ export default {
 				})
 				.then(result => {
 					this.artists = result
-					embed('#ArtistPopularityDistribution', this.vegaSpec, {
-						actions: false
+					embed('#ArtistPopularityDistribution', this.vegaSpec).then(result => {
+						result.view.addSignalListener('select', function(name, value) {
+							console.log('select: ' + JSON.stringify(value))
+						})
 					})
 				})
 		})
@@ -33,7 +35,13 @@ export default {
 				},
 				selection: {
 					highlight: { type: 'single', empty: 'none', on: 'mouseover' },
-					select: { type: 'multi' }
+					select: {
+						type: 'single',
+						fields: [
+							'bin_maxbins_10_popularity',
+							'bin_maxbins_10_popularity_end'
+						]
+					}
 				},
 				mark: {
 					type: 'bar',
