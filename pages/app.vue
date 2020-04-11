@@ -9,7 +9,7 @@
 		<p>This visual shows the distribution of artists over popularity. By choosing tracks from high-popularity artists, DJs can curate sets that crowds will love. The visual uses the dimension 'popularity', which is an artist's popularity as determined by Spotify's algorithms. The artists are plotted on a histogram, as this allows the user to easily move from most popular artists to least popular.</p>
 
 		<h3>Scatter plot of danceabilty vs. popularity</h3>
-		<!-- <ScatterPlotDancePopularity /> -->
+		<ScatterPlotDancePopularity />
 		<p>This visual shows the correlation between popularity and danceability, and attempts to uncover whether songs that are more danceable will be more popular. To visualize the correlation (if any), we use a scatter plot of two dimensions: danceability and popularity. Note: regression line will be added shortly.</p>
 
 		<h3>Scatter plot of danceability vs. tempo</h3>
