@@ -22,115 +22,52 @@ export default {
 	computed: {
 		vegaSpec() {
 			return {
-				$schema: 'https://vega.github.io/schema/vega/v5.json',
+				$schema: 'https://vega.github.io/schema/vega-lite/v4.json',
 				title: 'Distribution of artists over popularity',
 				width: 700,
 				height: 400,
 				padding: 5,
-				signals: {
-					name: 'clicked',
-					value: null,
-					on: [
-						{
-							events: 'click',
-							update: '{value: datum.value}',
-							force: true
-						}
-					]
+				data: {
+					name: 'artists',
+					values: this.artists
 				},
-				data: [
-					{
-						name: 'artists',
-						values: this.artists
+				selection: {
+					highlight: { type: 'single', empty: 'none', on: 'mouseover' },
+					select: { type: 'multi' }
+				},
+				mark: {
+					type: 'bar',
+					fill: '#4C78A8',
+					stroke: 'black',
+					cursor: 'pointer'
+				},
+				encoding: {
+					x: {
+						bin: true,
+						field: 'popularity',
+						type: 'quantitative'
 					},
-					{
-						name: 'selected',
-						on: [{ trigger: 'clicked', insert: 'clicked' }]
+					y: {
+						aggregate: 'count',
+						type: 'quantitative'
 					},
-					{
-						name: 'binned',
-						source: 'artists',
-						transform: [
+					fillOpacity: {
+						condition: { selection: 'select', value: 1 },
+						value: 0.3
+					},
+					strokeWidth: {
+						condition: [
 							{
-								type: 'bin',
-								field: 'popularity',
-								extent: [0, 100],
-								step: 1,
-								nice: false
-							},
-							{
-								type: 'aggregate',
-								key: 'bin0',
-								groupby: ['bin0', 'bin1'],
-								fields: ['bin0'],
-								ops: ['count'],
-								as: ['count']
-							}
-						]
-					}
-				],
-				scales: [
-					{
-						name: 'xscale',
-						type: 'linear',
-						range: 'width',
-						domain: [0, 100]
-					},
-					{
-						name: 'yscale',
-						type: 'linear',
-						range: 'height',
-						round: true,
-						domain: { data: 'binned', field: 'count' },
-						zero: true,
-						nice: true
-					},
-					{
-						name: 'color',
-						type: 'ordinal',
-						range: { scheme: 'category10' },
-						domain: { data: 'binned', field: 'popularity' }
-					}
-				],
-				axes: [
-					{ orient: 'bottom', scale: 'xscale', zindex: 1, title: 'Popularity' },
-					{
-						orient: 'left',
-						scale: 'yscale',
-						tickCount: 5,
-						zindex: 1,
-						title: 'Number of artists'
-					}
-				],
-				marks: [
-					{
-						type: 'rect',
-						from: { data: 'binned' },
-						interactive: true,
-						encode: {
-							update: {
-								x: { scale: 'xscale', field: 'bin0' },
-								x2: {
-									scale: 'xscale',
-									field: 'bin1'
+								test: {
+									and: [{ selection: 'select' }, 'length(data("select_store"))']
 								},
-								y: { scale: 'yscale', field: 'count' },
-								y2: { scale: 'yscale', value: 0 },
-								fill: { scale: 'color', field: 'popularity' }
-							}
-						}
-					},
-					{
-						type: 'rect',
-						from: { data: 'artists' },
-						encode: {
-							enter: {
-								x: { scale: 'xscale', field: 'u' },
-								width: { value: 1 }
-							}
-						}
+								value: 2
+							},
+							{ selection: 'highlight', value: 1 }
+						],
+						value: 0
 					}
-				]
+				}
 			}
 		}
 	},
