@@ -11,7 +11,6 @@ export default {
 			this.$axios
 				.$post('/.netlify/functions/getAllArtistEvents', { artists: artists })
 				.then(result => {
-					console.log(result)
 					this.events = result
 					embed('#ArtistEventMap', this.vegaSpec)
 				})

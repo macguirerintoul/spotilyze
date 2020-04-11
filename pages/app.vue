@@ -4,7 +4,7 @@
 		<p>Welcome to Spotilyze. It's a visual analytics app developed to provide DJs and music enthusiasts with insights about their libraries.</p>
 		<h2>Assignment 4 visuals</h2>
 		<h3>Distribution of artists over popularity</h3>
-		<!-- <ArtistPopularityDistribution /> -->
+		<ArtistPopularityDistribution />
 
 		<p>This visual shows the distribution of artists over popularity. By choosing tracks from high-popularity artists, DJs can curate sets that crowds will love. The visual uses the dimension 'popularity', which is an artist's popularity as determined by Spotify's algorithms. The artists are plotted on a histogram, as this allows the user to easily move from most popular artists to least popular.</p>
 

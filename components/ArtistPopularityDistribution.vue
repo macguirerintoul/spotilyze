@@ -27,10 +27,25 @@ export default {
 				width: 700,
 				height: 400,
 				padding: 5,
+				signals: {
+					name: 'clicked',
+					value: null,
+					on: [
+						{
+							events: 'click',
+							update: '{value: datum.value}',
+							force: true
+						}
+					]
+				},
 				data: [
 					{
 						name: 'artists',
 						values: this.artists
+					},
+					{
+						name: 'selected',
+						on: [{ trigger: 'clicked', insert: 'clicked' }]
 					},
 					{
 						name: 'binned',
@@ -91,6 +106,7 @@ export default {
 					{
 						type: 'rect',
 						from: { data: 'binned' },
+						interactive: true,
 						encode: {
 							update: {
 								x: { scale: 'xscale', field: 'bin0' },
