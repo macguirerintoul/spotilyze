@@ -5,21 +5,23 @@
 import embed from 'vega-embed'
 
 export default {
-	created() {
-		this.$axios.$get('/.netlify/functions/getAllArtists').then(result => {
-			this.$axios
-				.$post('/.netlify/functions/getArtistDetails', {
-					ids: result.map(item => item.id)
-				})
-				.then(result => {
-					this.artists = result
-					embed('#ArtistPopularityDistribution', this.vegaSpec).then(result => {
-						result.view.addSignalListener('select', function(name, value) {
-							console.log('select: ' + JSON.stringify(value))
-						})
-					})
-				})
+	props: { artists: Array },
+	mounted() {
+		embed('#ArtistPopularityDistribution', this.vegaSpec).then(result => {
+			result.view.addSignalListener('select', function(name, value) {
+				console.log('select: ' + JSON.stringify(value))
+			})
 		})
+	},
+	watch: {
+		vegaSpec(v) {
+			if (v) this.draw()
+		}
+	},
+	methods: {
+		async draw() {
+			await embed('#ArtistPopularityDistribution', this.vegaSpec)
+		}
 	},
 	computed: {
 		vegaSpec() {
@@ -77,11 +79,6 @@ export default {
 					}
 				}
 			}
-		}
-	},
-	data() {
-		return {
-			artists: []
 		}
 	}
 }
