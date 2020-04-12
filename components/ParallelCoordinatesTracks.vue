@@ -48,7 +48,9 @@ export default {
 						on: [
 							{
 								events: '@myline:mouseover',
-								update: { expr: 'group().datum.name' }
+								update: {
+									expr: 'group().datum.artists + " – " + group().datum.name'
+								}
 							}
 						]
 					}
