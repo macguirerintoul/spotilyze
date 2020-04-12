@@ -5,19 +5,19 @@
 import embed from 'vega-embed'
 
 export default {
-	created() {
-		console.log('created')
-		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
-			console.log(result)
-			this.$axios
-				.$post('.netlify/functions/getAudioFeatures', {
-					ids: result.map(item => item.track.id)
-				})
-				.then(result => {
-					this.tracks = result
-					embed('#ParallelCoordinatesTracks', this.vegaSpec, { actions: false })
-				})
-		})
+	props: {
+		artists: {
+			type: Array,
+			default() {
+				return []
+			}
+		}
+	},
+	data() {
+		return {
+			trackInfo: [],
+			tracks: []
+		}
 	},
 	computed: {
 		vegaSpec() {
@@ -37,10 +37,31 @@ export default {
 						titleBaseline: 'top'
 					}
 				},
+				signals: [
+					{
+						name: 'artists',
+						value: this.artists.map(artist => artist.name)
+					}
+				],
 				data: [
+					{ name: 'trackInfo', values: this.trackInfo },
 					{
 						name: 'tracks',
-						values: this.tracks
+						values: this.tracks,
+						transform: [
+							{
+								type: 'lookup',
+								from: 'trackInfo',
+								key: 'id',
+								fields: ['id'],
+								values: ['artists', 'name']
+							},
+							{
+								// filter out tracks whose artist isn't in parent array
+								type: 'filter',
+								expr: 'indexof(artists, datum.artists[0]) > 0'
+							}
+						]
 					},
 					{
 						name: 'fields',
@@ -165,6 +186,7 @@ export default {
 								type: 'line',
 								from: { data: 'fields' },
 								encode: {
+									update: { tooltip: { signal: 'datum' } },
 									enter: {
 										x: { scale: 'ord', field: 'data' },
 										y: {
@@ -183,9 +205,31 @@ export default {
 			}
 		}
 	},
-	data() {
-		return {
-			tracks: []
+	watch: {
+		vegaSpec(v) {
+			if (v) this.draw()
+		}
+	},
+	created() {
+		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
+			this.trackInfo = result.map(item => ({
+				id: item.track.id,
+				artists: item.track.artists.map(artist => artist.name),
+				name: item.track.name
+			}))
+			this.$axios
+				.$post('.netlify/functions/getAudioFeatures', {
+					ids: result.map(item => item.track.id)
+				})
+				.then(result => {
+					this.tracks = result
+					embed('#ParallelCoordinatesTracks', this.vegaSpec, { actions: false })
+				})
+		})
+	},
+	methods: {
+		async draw() {
+			await embed('#ParallelCoordinatesTracks', this.vegaSpec)
 		}
 	}
 }

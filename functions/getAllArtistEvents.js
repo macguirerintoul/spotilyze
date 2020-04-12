@@ -4,7 +4,7 @@ const getAllArtistEvents = async artists => {
 	let promises = []
 	let events = []
 
-	for (i = 0; i < artists.length; i++) {
+	for (let i = 0; i < artists.length; i++) {
 		promises.push(
 			axios
 				.get(
@@ -17,7 +17,7 @@ const getAllArtistEvents = async artists => {
 				.then(result => {
 					events.push.apply(events, result.data)
 				})
-				.catch(error => console.error(error))
+				.catch(error => console.error(error.response.statusText))
 		)
 	}
 	return Promise.all(promises).then(() => {

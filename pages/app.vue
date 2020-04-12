@@ -40,7 +40,7 @@
 		</p>
 
 		<h3>Parallel coordinates of tracks in library</h3>
-		<!-- <ParallelCoordinatesTracks /> -->
+		<ParallelCoordinatesTracks :artists="artists" />
 		<p>
 			This visual shows all tracks in the library across 7 dimensions. From this
 			visualization, we can see that the user (Macguire) tends to listen to
@@ -58,7 +58,7 @@
 	</div>
 </template>
 <script>
-// import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
+import ParallelCoordinatesTracks from '~/components/ParallelCoordinatesTracks'
 import ScatterPlotDancePopularity from '~/components/ScatterPlotDancePopularity'
 // import ScatterPlotDanceabilityTempo from '~/components/ScatterPlotDanceabilityTempo'
 import ArtistPopularityDistribution from '~/components/ArtistPopularityDistribution'
@@ -66,7 +66,7 @@ import ArtistEventMap from '~/components/ArtistEventMap'
 
 export default {
 	components: {
-		// ParallelCoordinatesTracks,
+		ParallelCoordinatesTracks,
 		ScatterPlotDancePopularity,
 		ArtistPopularityDistribution,
 		ArtistEventMap
