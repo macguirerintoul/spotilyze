@@ -36,7 +36,7 @@ exports.handler = async event => {
 		.then(result => {
 			return result.data.total
 		})
-		.catch(error => console.error(error))
+		.catch(error => console.error(error.response.statusText))
 
 	// once we know the total number, retrieve every track
 	return getAllTracks(total, auth).then(result => {

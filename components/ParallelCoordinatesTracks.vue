@@ -41,6 +41,16 @@ export default {
 					{
 						name: 'artists',
 						value: this.artists.map(artist => artist.name)
+					},
+					{
+						name: 'tooltip',
+						value: {},
+						on: [
+							{
+								events: '@myline:mouseover',
+								update: { expr: 'group().datum.name' }
+							}
+						]
 					}
 				],
 				data: [
@@ -183,10 +193,11 @@ export default {
 						from: { data: 'tracks' },
 						marks: [
 							{
+								name: 'myline',
 								type: 'line',
 								from: { data: 'fields' },
 								encode: {
-									update: { tooltip: { signal: 'datum' } },
+									update: { tooltip: { signal: 'tooltip' } },
 									enter: {
 										x: { scale: 'ord', field: 'data' },
 										y: {
@@ -194,7 +205,7 @@ export default {
 											field: { parent: { datum: 'data' } }
 										},
 										stroke: { value: 'steelblue' },
-										strokeWidth: { value: 1.01 },
+										strokeWidth: { value: 3 },
 										strokeOpacity: { value: 0.3 }
 									}
 								}
