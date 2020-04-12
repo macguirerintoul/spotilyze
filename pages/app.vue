@@ -68,6 +68,10 @@ export default {
 		}
 	},
 	methods: {
+		setPopularityFilter(min, max) {
+			this.minPopularity = min
+			this.maxPopularity = max
+		},
 		initialize() {
 			console.log('Initializing app')
 		},

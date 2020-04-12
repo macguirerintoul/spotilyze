@@ -3,15 +3,12 @@
 </template>
 <script>
 import embed from 'vega-embed'
+import { isMinMaxOp } from 'vega-lite/build/src/aggregate'
 
 export default {
 	props: { artists: Array },
 	mounted() {
-		embed('#ArtistPopularityDistribution', this.vegaSpec).then(result => {
-			result.view.addSignalListener('select', function(name, value) {
-				console.log('select: ' + JSON.stringify(value))
-			})
-		})
+		this.draw()
 	},
 	watch: {
 		vegaSpec(v) {
@@ -20,7 +17,22 @@ export default {
 	},
 	methods: {
 		async draw() {
-			await embed('#ArtistPopularityDistribution', this.vegaSpec)
+			await embed('#ArtistPopularityDistribution', this.vegaSpec).then(
+				result => {
+					result.view.addSignalListener('select', (name, value) => {
+						console.log('select: ' + value.bin_maxbins_10_popularity)
+						let min, max
+						if (typeof value !== undefined) {
+							min = value.bin_maxbins_10_popularity
+							max = value.bin_maxbins_10_popularity_end
+						} else {
+							min = 0
+							max = 100
+						}
+						this.$parent.setPopularityFilter(min, max)
+					})
+				}
+			)
 		}
 	},
 	computed: {
