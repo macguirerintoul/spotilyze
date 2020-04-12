@@ -19,11 +19,22 @@ export default {
 				})
 				.then(result => {
 					this.tracks = result
-					embed('#ScatterPlotDancePopularity', this.vegaSpec, {
-						actions: false
-					})
+					embed('#ScatterPlotDancePopularity', this.vegaSpec)
 				})
 		})
+	},
+	props: {
+		artists: Array
+	},
+	watch: {
+		vegaSpec(v) {
+			if (v) this.draw()
+		}
+	},
+	methods: {
+		async draw() {
+			await embed('#ScatterPlotDancePopularity', this.vegaSpec)
+		}
 	},
 	computed: {
 		vegaSpec() {
@@ -33,6 +44,12 @@ export default {
 				width: 700,
 				height: 400,
 				padding: 5,
+				signals: [
+					{
+						name: 'artists',
+						value: this.artists.map(artist => artist.name)
+					}
+				],
 				data: [
 					{ name: 'popularity', values: this.popularityData },
 					{
@@ -48,7 +65,7 @@ export default {
 							},
 							{
 								type: 'filter',
-								expr: "indexof(datum.artists, 'Anderson .Paak') > 0"
+								expr: 'indexof(artists, datum.artists[0]) > 0'
 							}
 						]
 					}

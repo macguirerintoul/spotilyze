@@ -4,12 +4,12 @@
 		<p>Welcome to Spotilyze. It's a visual analytics app developed to provide DJs and music enthusiasts with insights about their libraries.</p>
 		<h2>Assignment 4 visuals</h2>
 		<h3>Distribution of artists over popularity</h3>
-		<ArtistPopularityDistribution :artists="artists" />
+		<ArtistPopularityDistribution :artists="fullArtists" />
 
 		<p>This visual shows the distribution of artists over popularity. By choosing tracks from high-popularity artists, DJs can curate sets that crowds will love. The visual uses the dimension 'popularity', which is an artist's popularity as determined by Spotify's algorithms. The artists are plotted on a histogram, as this allows the user to easily move from most popular artists to least popular.</p>
 
 		<h3>Scatter plot of danceabilty vs. popularity</h3>
-		<ScatterPlotDancePopularity />
+		<ScatterPlotDancePopularity :artists="artists" />
 		<p>This visual shows the correlation between popularity and danceability, and attempts to uncover whether songs that are more danceable will be more popular. To visualize the correlation (if any), we use a scatter plot of two dimensions: danceability and popularity. Note: regression line will be added shortly.</p>
 
 		<h3>Scatter plot of danceability vs. tempo</h3>
@@ -55,12 +55,16 @@ export default {
 	data() {
 		return {
 			user: {},
-			fullArtists: []
+			fullArtists: [],
+			minPopularity: 50,
+			maxPopularity: 100
 		}
 	},
 	computed: {
 		artists() {
 			return this.fullArtists
+				.filter(artist => artist.popularity >= this.minPopularity)
+				.filter(artist => artist.popularity <= this.maxPopularity)
 		}
 	},
 	methods: {
