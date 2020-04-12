@@ -5,27 +5,31 @@
 import embed from 'vega-embed'
 
 export default {
-	created() {
-		this.$axios.$get('/.netlify/functions/getAllArtists').then(result => {
-			let artists = result.map(item => item.name)
-			this.$axios
-				.$post('/.netlify/functions/getAllArtistEvents', { artists: artists })
-				.then(result => {
-					this.events = result
-					embed('#ArtistEventMap', this.vegaSpec)
-				})
-		})
+	props: {
+		artists: {
+			type: Array,
+			default() {
+				return []
+			}
+		}
+	},
+	data() {
+		return {
+			events: []
+		}
 	},
 	computed: {
 		vegaSpec() {
 			return {
 				$schema: 'https://vega.github.io/schema/vega/v5.json',
-				description: 'A configurable map of countries of the world.',
 				width: 900,
 				height: 500,
 				autosize: 'none',
-
 				signals: [
+					{
+						name: 'artists',
+						value: this.artists.map(artist => artist.name)
+					},
 					{ name: 'tx', update: 'width / 2' },
 					{ name: 'ty', update: 'height / 2' },
 					{
@@ -146,8 +150,14 @@ export default {
 								fields: ['venue.longitude', 'venue.latitude']
 							},
 							{
+								// filter out events with no lat or long
 								type: 'filter',
 								expr: 'datum.x != null && datum.y != null'
+							},
+							{
+								// filter out events according to parent artists array
+								type: 'filter',
+								expr: 'indexof(artists, datum.lineup[0]) > 0'
 							}
 						]
 					}
@@ -185,9 +195,26 @@ export default {
 			}
 		}
 	},
-	data() {
-		return {
-			events: []
+	watch: {
+		vegaSpec(v) {
+			if (v) this.draw()
+		}
+	},
+	created() {
+		this.$axios.$get('/.netlify/functions/getAllArtists').then(result => {
+			let artists = result.map(item => item.name)
+			this.$axios
+				.$post('/.netlify/functions/getAllArtistEvents', { artists: artists })
+				.then(result => {
+					this.events = result
+					embed('#ArtistEventMap', this.vegaSpec)
+				})
+		})
+	},
+
+	methods: {
+		async draw() {
+			await embed('#ArtistEventMap', this.vegaSpec)
 		}
 	}
 }

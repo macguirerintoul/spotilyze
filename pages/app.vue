@@ -5,7 +5,7 @@
 			Welcome to Spotilyze. It's a visual analytics app developed to provide DJs
 			and music enthusiasts with insights about their libraries.
 		</p>
-		<h2>Assignment 4 visuals</h2>
+
 		<h3>Distribution of artists over popularity</h3>
 		<ArtistPopularityDistribution :artists="fullArtists" />
 
@@ -28,14 +28,13 @@
 			added shortly.
 		</p>
 
-		<h3>Scatter plot of danceability vs. tempo</h3>
-		<!-- <ScatterPlotDanceabilityTempo /> -->
+		<h3>Artist event map</h3>
+		<ArtistEventMap :artists="artists" />
 		<p>
-			This visual shows the correlation between danceability and tempo, and
-			attempts to uncover whether danceability is correlated to tempo.
-			Conventionally, dance music is in the range 120bpm - 128bpm. To visualize
-			the correlation (if any), we use a scatter plot of two dimensions:
-			danceability and tempo. Note: regression line will be added shortly.
+			This visual shows all upcoming events for artists selected in the first
+			visual. It gets a list of artists the user is following from the Spotify
+			API, then uses the Bandsintown API to search for events that include those
+			artists.
 		</p>
 
 		<h3>Parallel coordinates of tracks in library</h3>
@@ -45,7 +44,15 @@
 			visualization, we can see that the user (Macguire) tends to listen to
 			music that is highly danceable, as well as highly electronic.
 		</p>
-		<ArtistEventMap />
+		<h3>Scatter plot of danceability vs. tempo</h3>
+		<!-- <ScatterPlotDanceabilityTempo /> -->
+		<p>
+			This visual shows the correlation between danceability and tempo, and
+			attempts to uncover whether danceability is correlated to tempo.
+			Conventionally, dance music is in the range 120bpm - 128bpm. To visualize
+			the correlation (if any), we use a scatter plot of two dimensions:
+			danceability and tempo. Note: regression line will be added shortly.
+		</p>
 	</div>
 </template>
 <script>
