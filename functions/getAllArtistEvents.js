@@ -21,7 +21,10 @@ const getAllArtistEvents = async artists => {
 		)
 	}
 	return Promise.all(promises).then(() => {
-		return events
+		let uniqueEvents = events.filter(
+			(event, index, self) => index === self.findIndex(t => t.id === event.id)
+		)
+		return uniqueEvents
 	})
 }
 

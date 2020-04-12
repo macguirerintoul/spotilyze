@@ -3,7 +3,6 @@
 </template>
 <script>
 import embed from 'vega-embed'
-import { isMinMaxOp } from 'vega-lite/build/src/aggregate'
 
 export default {
 	props: { artists: Array },

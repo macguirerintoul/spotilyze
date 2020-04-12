@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<p>Welcome to Spotilyze. It's a visual analytics app developed to provide DJs and music enthusiasts with insights about their libraries.</p>
+		<p>
+			Welcome to Spotilyze. It's a visual analytics app developed to provide DJs
+			and music enthusiasts with insights about their libraries.
+		</p>
 		<a :href="spotifyLoginUrl">Login with Spotify</a>
 	</div>
 </template>
@@ -47,13 +50,13 @@ export default {
 			this.$axios
 				.$get('https://api.spotify.com/v1/me')
 				.then(result => {
-					console.log('authenticated')
 					// User is already authenticated
-					this.$router.push('app')
 					console.log(result)
+					this.$router.push('app')
 				})
 				.catch(error => {
 					// 401 error because user is not yet authenticated
+					console.error(error)
 					this.getToken()
 				})
 		},
