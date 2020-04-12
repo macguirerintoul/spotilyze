@@ -7,6 +7,7 @@
 		</p>
 
 		<h3>Distribution of artists over popularity</h3>
+		<p>Choose a popularity bin to get started.</p>
 		<ArtistPopularityDistribution :artists="fullArtists" />
 
 		<p>
@@ -15,7 +16,8 @@
 			love. The visual uses the dimension 'popularity', which is an artist's
 			popularity as determined by Spotify's algorithms. The artists are plotted
 			on a histogram, as this allows the user to easily move from most popular
-			artists to least popular.
+			artists to least popular. Clicking any of the bins will filter the other
+			views of the data using only artists from that bin.
 		</p>
 
 		<h3>Scatter plot of danceabilty vs. popularity</h3>
@@ -24,8 +26,8 @@
 			This visual shows the correlation between popularity and danceability, and
 			attempts to uncover whether songs that are more danceable will be more
 			popular. To visualize the correlation (if any), we use a scatter plot of
-			two dimensions: danceability and popularity. Note: regression line will be
-			added shortly.
+			two dimensions: danceability and popularity. According to the regression
+			line, there is no linear correlation between popularity and danceability.
 		</p>
 
 		<h3>Artist event map</h3>

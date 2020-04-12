@@ -51,6 +51,20 @@ export default {
 								expr: 'indexof(artists, datum.artists[0]) > 0'
 							}
 						]
+					},
+					{
+						name: 'trend',
+						source: 'tracks',
+						transform: [
+							{
+								type: 'regression',
+								method: 'linear',
+								extent: { signal: "domain('x')" },
+								x: 'popularity',
+								y: 'danceability',
+								as: ['u', 'v']
+							}
+						]
 					}
 				],
 				scales: [
@@ -107,6 +121,17 @@ export default {
 									signal:
 										"{title: datum.name, 'Artist': datum.artists, 'Popularity': datum.popularity, 'Danceability': datum.danceability}"
 								}
+							}
+						}
+					},
+					{
+						type: 'line',
+						from: { data: 'trend' },
+						encode: {
+							enter: {
+								x: { scale: 'x', field: 'u' },
+								y: { scale: 'y', field: 'v' },
+								stroke: { value: 'firebrick' }
 							}
 						}
 					}
