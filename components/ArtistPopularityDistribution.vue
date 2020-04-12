@@ -20,9 +20,8 @@ export default {
 			await embed('#ArtistPopularityDistribution', this.vegaSpec).then(
 				result => {
 					result.view.addSignalListener('select', (name, value) => {
-						console.log('select: ' + value.bin_maxbins_10_popularity)
 						let min, max
-						if (typeof value !== undefined) {
+						if (value.bin_maxbins_10_popularity_end) {
 							min = value.bin_maxbins_10_popularity
 							max = value.bin_maxbins_10_popularity_end
 						} else {
