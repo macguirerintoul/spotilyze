@@ -5,35 +5,18 @@
 import embed from 'vega-embed'
 
 export default {
-	created() {
-		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
-			/* Here, we need to keep the popularity values we have since they aren't returned by the audio features API */
-			this.popularityData = result.map(item => ({
-				id: item.track.id,
-				popularity: item.track.popularity,
-				artists: item.track.artists.map(artist => artist.name)
-			}))
-			this.$axios
-				.$post('.netlify/functions/getAudioFeatures', {
-					ids: result.map(item => item.track.id)
-				})
-				.then(result => {
-					this.tracks = result
-					embed('#ScatterPlotDancePopularity', this.vegaSpec)
-				})
-		})
-	},
 	props: {
-		artists: Array
-	},
-	watch: {
-		vegaSpec(v) {
-			if (v) this.draw()
+		artists: {
+			type: Array,
+			default() {
+				return []
+			}
 		}
 	},
-	methods: {
-		async draw() {
-			await embed('#ScatterPlotDancePopularity', this.vegaSpec)
+	data() {
+		return {
+			tracks: [],
+			popularityData: []
 		}
 	},
 	computed: {
@@ -61,7 +44,7 @@ export default {
 								from: 'popularity',
 								key: 'id',
 								fields: ['id'],
-								values: ['popularity', 'artists']
+								values: ['popularity', 'artists', 'name']
 							},
 							{
 								type: 'filter',
@@ -119,7 +102,11 @@ export default {
 								y: { scale: 'y', field: 'danceability' },
 								shape: { value: 'circle' },
 								opacity: { value: 0.5 },
-								fill: { value: '#4682b4' }
+								fill: { value: '#4682b4' },
+								tooltip: {
+									signal:
+										"{title: datum.name, 'Artist': datum.artists, 'Popularity': datum.popularity, 'Danceability': datum.danceability}"
+								}
 							}
 						}
 					}
@@ -127,10 +114,33 @@ export default {
 			}
 		}
 	},
-	data() {
-		return {
-			tracks: [],
-			popularityData: []
+	watch: {
+		vegaSpec(v) {
+			if (v) this.draw()
+		}
+	},
+	created() {
+		this.$axios.$get('/.netlify/functions/getAllTracks').then(result => {
+			/* Here, we need to keep the popularity values we have since they aren't returned by the audio features API */
+			this.popularityData = result.map(item => ({
+				id: item.track.id,
+				popularity: item.track.popularity,
+				artists: item.track.artists.map(artist => artist.name),
+				name: item.track.name
+			}))
+			this.$axios
+				.$post('.netlify/functions/getAudioFeatures', {
+					ids: result.map(item => item.track.id)
+				})
+				.then(result => {
+					this.tracks = result
+					embed('#ScatterPlotDancePopularity', this.vegaSpec)
+				})
+		})
+	},
+	methods: {
+		async draw() {
+			await embed('#ScatterPlotDancePopularity', this.vegaSpec)
 		}
 	}
 }

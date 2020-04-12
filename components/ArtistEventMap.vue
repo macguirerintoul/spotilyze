@@ -39,7 +39,7 @@ export default {
 							{
 								events: { type: 'wheel', consume: true },
 								update:
-									'clamp(scale * pow(1.0005, -event.deltaY * pow(16, event.deltaMode)), 150, 3000)'
+									'clamp(scale * pow(1.005, -event.deltaY * pow(16, event.deltaMode)), 150, 3000)'
 							}
 						]
 					},
@@ -187,7 +187,10 @@ export default {
 							update: {
 								x: { field: 'x' },
 								y: { field: 'y' },
-								tooltip: { signal: 'datum' }
+								tooltip: {
+									signal:
+										"{title: datum.title ? datum.title : datum.lineup[0] + ' at ' + datum.venue.name, 'Description': datum.description ? datum.description : 'No description provided', 'Venue': datum.venue.name, 'Lineup': datum.lineup}"
+								}
 							}
 						}
 					}
