@@ -56,7 +56,6 @@ export default {
 				})
 				.catch(error => {
 					// 401 error because user is not yet authenticated
-					console.error(error)
 					this.getToken()
 				})
 		},

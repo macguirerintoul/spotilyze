@@ -13,7 +13,8 @@ module.exports = {
 	rules: {
 		'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 		'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-		'prettier/prettier': 'warn'
+		'prettier/prettier': 'warn',
+		'no-unused-vars': 'warn'
 	},
 	globals: {
 		$nuxt: true
